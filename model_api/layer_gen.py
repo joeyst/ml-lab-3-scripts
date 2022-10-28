@@ -5,7 +5,7 @@ def get_Dense():
   return k.layers.Dense(random.randint(2, 20))
 
 def get_Dropout():
-  return k.layers.Dropout(random.randint(10, 100) / 100)
+  return k.layers.Dropout(random.randint(0, 50) / 100)
 
 def get_Activation():
   return k.layers.Activation(k.activations.relu)
