@@ -13,7 +13,7 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
   y = y.values
 
   for train, test in kfold:
-    temp_model = model
+    temp_model = k.models.clone_model(model)
 
     X_train, X_test = X[train], X[test]
     y_train, y_test = y[train], y[test]
