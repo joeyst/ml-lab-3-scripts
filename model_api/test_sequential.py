@@ -16,10 +16,10 @@ def train_and_test_CV_tf(model, X, y, k=10, verbose=False):
     X_train, X_test = X[train], X[test]
     y_train, y_test = y[train], y[test]
 
-    X_train = np.asarray(X_train.values).astype('float32')
-    X_test  = np.asarray(X_test.values).astype('float32')
-    y_train = np.asarray(y_train.values).astype('float32')
-    y_test  = np.asarray(y_test.values).astype('float32')
+    X_train = np.asarray(X_train).astype('float32')
+    X_test  = np.asarray(X_test).astype('float32')
+    y_train = np.asarray(y_train).astype('float32')
+    y_test  = np.asarray(y_test).astype('float32')
 
     print("X_train_tf:", X_train.shape)
     print("y_train_tf:", y_train.shape)
