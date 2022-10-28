@@ -20,7 +20,7 @@ def get_Layer_proba(spec_dict):
     deprob = props['dense']
     drprob = props['dropout']
   except:
-    print("spec_dict:", spec_dict)
+    print("spec_dict:", props)
 
   amin = deprob + drprob
   demin = deprob
