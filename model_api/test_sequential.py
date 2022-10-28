@@ -32,6 +32,7 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
 
     history = temp_model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, validation_split=0.3)
     curr_y_pred = temp_model.predict(X_test)
+    curr_y_pred = np.array(curr_y_pred).flatten()
 
     if comparison:
       print("Pred:", curr_y_pred)
