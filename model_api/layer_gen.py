@@ -25,6 +25,13 @@ def get_Layer_proba(spec_dict):
   amin = deprob + drprob
   demin = deprob
 
+  if spec_dict.get('dense') == None:
+    spec_dict['dense'] = {}
+  if spec_dict.get('dropout') == None:
+    spec_dict['dropout'] = {}
+  if spec_dict.get('activation') == None:
+    spec_dict['activation'] = {}
+
   rand_prop = random.uniform(0, 1)
   if rand_prop >= amin:
     return get_activation_from_extracted(spec_dict['activation'])
