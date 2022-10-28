@@ -1,5 +1,7 @@
 from sklearn.model_selection import KFold
 from tensorflow import convert_to_tensor as ctt
+import numpy as np
+from scipy.stats import pearsonr
 
 def train_and_test_CV_tf(model, X, y, k=10):
   kfold = KFold(n_splits=k).split(X)
