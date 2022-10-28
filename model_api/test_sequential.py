@@ -3,7 +3,7 @@ from tensorflow import convert_to_tensor as ctt
 import numpy as np
 from scipy.stats import pearsonr
 
-def train_and_test_CV_tf(model, X, y, k=10):
+def train_and_test_CV_tf(model, X, y, k=10, verbose=True):
   kfold = KFold(n_splits=k).split(X)
 
   scores = []
@@ -25,4 +25,7 @@ def train_and_test_CV_tf(model, X, y, k=10):
     score = pearsonr(y_test_tf, curr_y_pred)
     scores.append(score[0])
   
+  if verbose:
+    print(model.summary())
+    
   return y_pred, np.mean(scores)
