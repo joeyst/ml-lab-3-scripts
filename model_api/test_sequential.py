@@ -3,7 +3,7 @@ from tensorflow import convert_to_tensor as ctt
 import numpy as np
 from scipy.stats import pearsonr
 
-def train_and_test_CV_tf(model, X, y, k=10, verbose=True):
+def train_and_test_CV_tf(model, X, y, k=10, verbose=False):
   kfold = KFold(n_splits=k).split(X)
 
   scores = []
@@ -13,21 +13,19 @@ def train_and_test_CV_tf(model, X, y, k=10, verbose=True):
   y = np.asarray(y.values).astype('float32')
 
   for train, test in kfold:
-    X_train_tf, X_test_tf = X[train], X[test]
-    y_train_tf, y_test_tf = y[train], y[test]
-    y_test = y[test]
+    X_train, X_test = X.values, X.values
+    y_train, y_test = y.values, y.values
 
-    model.fit(X_train_tf, y_train_tf)
-    curr_y_pred = model.predict(X_test_tf)
+    print("X_train_tf:", X_train.shape)
+    print("y_train_tf:", y_train.shape)
+
+    model.fit(X_train_tf, y_train)
+    curr_y_pred = model.predict(X_test)
+
+    print("X_test:", X_test.shape)
+    print("y_pred:", curr_y_pred.shape)
 
     y_pred.extend(curr_y_pred)
-
-    print("X_train_tf:", X_train_tf)
-    print("Type:", type(X_train_tf))
-    print("\ny_pred:", curr_y_pred)
-    print("Type:", type(curr_y_pred))
-    print("\ny_test", y_test)
-    print("Type:", type(y_test))
 
     score = pearsonr(y_test, curr_y_pred)
     scores.append(score[0])
