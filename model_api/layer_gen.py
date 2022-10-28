@@ -52,7 +52,7 @@ def get_random_Sequential(X_df, layers=3, opt='adam', loss_fn='mean_squared_erro
   model.compile(optimizer=opt, loss=loss_fn)
   return model
 
-def get_Sequential(X_df, layers=3, spec_dict={}, opt='adam', loss_fn='mean_squared_error'):
+def get_Sequential(X_df, layers=3, spec_dict={}, opt='adam', loss_fn='mean_squared_error', starting_dense_number=10):
   """
   Returns `Sequential` with specified number of layers, 
   probabilities of types of `Layer`s, and `Layer` parameters. 
@@ -104,7 +104,8 @@ def get_Sequential(X_df, layers=3, spec_dict={}, opt='adam', loss_fn='mean_squar
 
   model = k.Sequential()
 
-  model.add(k.Input(shape=len(X_df.columns)))
+  model.add(k.layers.InputLayer(input_shape=(len(X_df.columns),)))
+  model.add(k.layers.Dense(starting_dense_number, activation='tanh'))
   for _ in range(layers):
     model.add(get_Layer_proba(spec_dict))
   model.add(k.layers.Dense(1, activation='tanh'))
