@@ -22,10 +22,10 @@ def train_and_test_CV_tf(model, X, y, k=10, verbose=True):
 
     y_pred.extend(curr_y_pred)
 
-    score = pearsonr(y_test_tf, curr_y_pred)
+    score = pearsonr(y_test, curr_y_pred)
     scores.append(score[0])
   
   if verbose:
     print(model.summary())
-    
+
   return y_pred, np.mean(scores)
