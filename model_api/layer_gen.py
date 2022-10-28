@@ -3,7 +3,7 @@ import random
 from numpy.random import choice
 
 def get_Dense(rang=(2, 20), act=None):
-  return k.layers.Dense(random.choice(range(rang[0], rang[1]+1)), activation=act)
+  return k.layers.Dense(random.choice(range(rang[0], rang[1]+1)), activation=act, kernel_initializer=tf.keras.initializers.RandomNormal(stddev=0.3), bias_initializer=tf.keras.initializers.RandomNormal(stddev=0.3))
 
 def get_Dropout(rang=(0.1, 0.3)):
   return k.layers.Dropout(random.uniform(rang[0], rang[1]))
@@ -105,7 +105,7 @@ def get_Sequential(X_df, layers=3, spec_dict={}, opt='adam', loss_fn='mean_squar
   model = k.Sequential()
 
   model.add(k.layers.InputLayer(input_shape=(len(X_df.columns),)))
-  model.add(k.layers.Dense(starting_dense_number, activation='tanh'))
+  model.add(k.layers.Dense(starting_dense_number, activation='tanh', kernel_initializer=tf.keras.initializers.RandomNormal(stddev=0.3), bias_initializer=tf.keras.initializers.RandomNormal(stddev=0.3)))
   for _ in range(layers):
     model.add(get_Layer_proba(spec_dict))
   model.add(k.layers.Dense(1, activation='tanh'))

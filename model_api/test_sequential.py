@@ -27,7 +27,7 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
     y_train = np.asarray(y_train).astype('float32')
     y_test  = np.asarray(y_test).astype('float32')
 
-    temp_model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size)
+    history = temp_model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size)
     curr_y_pred = temp_model.predict(X_test)
 
     if comparison:
