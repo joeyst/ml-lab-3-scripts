@@ -9,6 +9,9 @@ def train_and_test_CV_tf(model, X, y, k=10, verbose=False):
   scores = []
   y_pred = []
 
+  X = X.values
+  y = y.values
+
   for train, test in kfold:
     X_train, X_test = X[train], X[test]
     y_train, y_test = y[train], y[test]
