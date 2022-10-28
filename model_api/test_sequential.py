@@ -13,8 +13,8 @@ def train_and_test_CV_tf(model, X, y, k=10, verbose=False):
   y = np.asarray(y.values).astype('float32')
 
   for train, test in kfold:
-    X_train, X_test = X, X
-    y_train, y_test = y, y
+    X_train, X_test = X[train], X[test]
+    y_train, y_test = y[train], y[test]
 
     print("X_train_tf:", X_train.shape)
     print("y_train_tf:", y_train.shape)
@@ -22,8 +22,10 @@ def train_and_test_CV_tf(model, X, y, k=10, verbose=False):
     model.fit(X_train, y_train)
     curr_y_pred = model.predict(X_test)
 
-    print("X_test:", X_test.shape)
+    print("y_test:", y_test.shape)
+    print("y_test type:", type(y_test))
     print("y_pred:", curr_y_pred.shape)
+    print("y_pred type:", type(curr_y_pred))
 
     y_pred.extend(curr_y_pred)
 
