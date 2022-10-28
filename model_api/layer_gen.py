@@ -173,5 +173,11 @@ def calc_props_from_extracted(props_dict):
         props[layer] = default_prop
       else:
         props[layer] = prop
+  else:
+    for layer, prop in props_dict.items():
+      if prop == None:
+        props[layer] = 0
+      else:
+        props[layer] = prop
   
   return props
