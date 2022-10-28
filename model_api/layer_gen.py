@@ -104,7 +104,7 @@ def get_Sequential(X_df, layers=3, spec_dict={}, opt='adam', loss_fn='mean_squar
 
   model = k.Sequential()
 
-  model.add(k.layers.Dense(units=starting_dense_number, input_shape=len(df_X.columns) activation='tanh', kernel_initializer=k.initializers.RandomNormal(stddev=0.3), bias_initializer=k.initializers.RandomNormal(stddev=0.3)))
+  model.add(k.layers.Dense(units=starting_dense_number, input_shape=len(df_X.columns), activation='tanh', kernel_initializer=k.initializers.RandomNormal(stddev=0.3), bias_initializer=k.initializers.RandomNormal(stddev=0.3)))
   for _ in range(layers):
     model.add(get_Layer_proba(spec_dict))
   model.add(k.layers.Dense(units=1, activation='sigmoid'))
