@@ -108,7 +108,7 @@ def get_Sequential(X_df, layers=3, spec_dict={}, opt='adam', loss_fn='mean_squar
   model.add(k.layers.Dense(starting_dense_number, activation='tanh', kernel_initializer=k.initializers.RandomNormal(stddev=0.3), bias_initializer=k.initializers.RandomNormal(stddev=0.3)))
   for _ in range(layers):
     model.add(get_Layer_proba(spec_dict))
-  model.add(k.layers.Dense(1, activation='tanh'))
+  model.add(k.layers.Dense(1, activation='sigmoid'))
   model.add(k.layers.Lambda(lambda x : (x - 0.5) * 2))
 
   model.compile(optimizer=opt, loss=loss_fn)
@@ -146,7 +146,7 @@ def get_dropout_from_extracted(dropout_dict):
   return get_Dropout(rang)
 
 def get_dense_from_extracted(dense_dict):
-  act = dense_dict.get('act', 'tanh')
+  act = dense_dict.get('act', 'relu')
   rang = dense_dict.get('range')
   if rang == None: 
     rang = (10, 20)
