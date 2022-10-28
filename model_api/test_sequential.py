@@ -16,7 +16,7 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
   for train, test in kfold:
     temp_model = tf.keras.models.clone_model(model)
     temp_model.compile(optimizer=opt, loss=loss_fn)
-    print("temp_model.get_weights(5):", temp_model.get_weights(5))
+    print("temp_model.weights:", temp_model.weights)
 
     X_train, X_test = X[train], X[test]
     y_train, y_test = y[train], y[test]
