@@ -13,6 +13,8 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
   y = y.values
 
   for train, test in kfold:
+    temp_model = model
+
     X_train, X_test = X[train], X[test]
     y_train, y_test = y[train], y[test]
 
@@ -21,9 +23,8 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
     y_train = np.asarray(y_train).astype('float32')
     y_test  = np.asarray(y_test).astype('float32')
 
-    model.reset_states()
-    model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size)
-    curr_y_pred = model.predict(X_test)
+    temp_model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size)
+    curr_y_pred = temp_model.predict(X_test)
 
     if comparison:
       print("Pred:", curr_y_pred)
@@ -35,6 +36,6 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
     scores.append(score[0])
   
   if summary:
-    print(model.summary())
+    print(temp_model.summary())
 
   return y_pred, np.mean(scores)
