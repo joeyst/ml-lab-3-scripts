@@ -22,6 +22,10 @@ def train_and_test_CV_tf(model, X, y, k=10, verbose=True):
 
     y_pred.extend(curr_y_pred)
 
+    print("X_train_tf:", X_train_tf)
+    print("Type:", type(X_train_tf))
+    print("\ny_pred:", y_pred)
+    print("Type:", type(y_pred))
     score = pearsonr(y_test, curr_y_pred)
     scores.append(score[0])
   
