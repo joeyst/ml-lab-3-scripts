@@ -13,7 +13,7 @@ def get_Activation():
 def get_Layer():
   return random.choice([get_Dense(), get_Dropout(), get_Activation()])
 
-def get_Sequential(X_df, layers=3, opt='lbfgs', loss_fn='mean_squared_error'):
+def get_Sequential(X_df, layers=3, opt='adam', loss_fn='mean_squared_error'):
   model = k.Sequential()
 
   model.add(k.Input(shape=len(X_df.columns)))
