@@ -3,7 +3,7 @@ import random
 from numpy.random import choice
 
 def get_Dense(rang=(2, 20), act=None):
-  return k.layers.Dense(rang, activation=act)
+  return k.layers.Dense(random.choice(rang), activation=act)
 
 def get_Dropout(rang=(0.1, 0.3)):
   return k.layers.Dropout(random.uniform(rang))
