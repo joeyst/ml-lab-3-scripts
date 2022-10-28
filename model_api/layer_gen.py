@@ -14,12 +14,12 @@ def get_Layer():
   return random.choice([get_Dense(), get_Dropout(), get_Activation()])
 
 def get_Sequential(X_df, layers=3, opt='lbfgs', loss_fn='mean_squared_error'):
-  model = k.Sequential()
+  model = k.layers.Sequential()
 
   model.add(k.Input(shape=len(X_df.columns)))
   for _ in range(layers):
     model.add(get_Layer())
-  model.add(k.Dense(1, activation='softmax'))
+  model.add(k.layers.Dense(1, activation='softmax'))
 
   model.compile(optimizer=opt, loss=loss_fn)
   return model
