@@ -4,7 +4,7 @@ import numpy as np
 from scipy.stats import pearsonr
 import tensorflow as tf
 
-def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epochs=5, batch_size=100):
+def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epochs=5, batch_size=100, opt='adam', loss_fn='mean_squared_error'):
   kfold = KFold(n_splits=k).split(X)
 
   scores = []
@@ -15,6 +15,7 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
 
   for train, test in kfold:
     temp_model = tf.keras.models.clone_model(model)
+    temp_model.compile(optimizer=opt, loss=loss_fn)
 
     X_train, X_test = X[train], X[test]
     y_train, y_test = y[train], y[test]
