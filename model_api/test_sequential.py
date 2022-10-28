@@ -35,4 +35,4 @@ def train_and_test_CV_tf(model, X, y, k=10, verbose=False):
   if verbose:
     print(model.summary())
 
-  return y_pred, np.mean(scores)
+  return y_pred.reshape(-1), np.mean(scores)

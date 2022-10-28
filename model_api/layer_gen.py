@@ -19,8 +19,7 @@ def get_Sequential(X_df, layers=3, opt='adam', loss_fn='mean_squared_error'):
   model.add(k.Input(shape=len(X_df.columns)))
   for _ in range(layers):
     model.add(get_Layer())
-  model.add(k.layers.Dense(1, activation='softmax'))
-  model.add(k.layers.Flatten())
+  model.add(k.layers.Dense(1))
 
   model.compile(optimizer=opt, loss=loss_fn)
   return model
