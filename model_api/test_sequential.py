@@ -2,6 +2,7 @@ from sklearn.model_selection import KFold
 from tensorflow import convert_to_tensor as ctt
 import numpy as np
 from scipy.stats import pearsonr
+import tensorflow as tf
 
 def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epochs=5, batch_size=100):
   kfold = KFold(n_splits=k).split(X)
@@ -13,7 +14,7 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
   y = y.values
 
   for train, test in kfold:
-    temp_model = k.models.clone_model(model)
+    temp_model = tf.keras.models.clone_model(model)
 
     X_train, X_test = X[train], X[test]
     y_train, y_test = y[train], y[test]
