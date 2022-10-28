@@ -3,7 +3,7 @@ from tensorflow import convert_to_tensor as ctt
 import numpy as np
 from scipy.stats import pearsonr
 
-def train_and_test_CV_tf(model, X, y, k=10, verbose=False):
+def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False):
   kfold = KFold(n_splits=k).split(X)
 
   scores = []
@@ -21,23 +21,19 @@ def train_and_test_CV_tf(model, X, y, k=10, verbose=False):
     y_train = np.asarray(y_train).astype('float32')
     y_test  = np.asarray(y_test).astype('float32')
 
-    print("X_train_tf:", X_train.shape)
-    print("y_train_tf:", y_train.shape)
-
     model.fit(X_train, y_train)
     curr_y_pred = model.predict(X_test)
 
-    print("y_test:", y_test.shape)
-    print("y_test type:", type(y_test))
-    print("y_pred:", curr_y_pred.shape)
-    print("y_pred type:", type(curr_y_pred))
+    if comparison:
+      print("Pred:", curr_y_pred)
+      print("Act :", y_test)
 
     y_pred.extend(curr_y_pred)
 
     score = pearsonr(y_test, curr_y_pred)
     scores.append(score[0])
   
-  if verbose:
+  if summary:
     print(model.summary())
 
   return y_pred, np.mean(scores)
