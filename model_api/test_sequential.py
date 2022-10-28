@@ -19,7 +19,7 @@ def train_and_test_CV_tf(model, X, y, k=10, verbose=False):
     print("X_train_tf:", X_train.shape)
     print("y_train_tf:", y_train.shape)
 
-    model.fit(X_train_tf, y_train)
+    model.fit(X_train, y_train)
     curr_y_pred = model.predict(X_test)
 
     print("X_test:", X_test.shape)
