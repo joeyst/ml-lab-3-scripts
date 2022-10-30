@@ -31,7 +31,7 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
 
     print("X_train shape:", X_train.shape)
     print("Y_train shape:", y_train.shape)
-    history = temp_model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, validation_split=0.3)
+    history = temp_model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size)
     curr_y_pred = temp_model.predict(X_test)
     print("X_test shape:", X_test.shape)
     print("Y_test shape:", y_test.shape)
