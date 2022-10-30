@@ -43,7 +43,6 @@ def get_Layer_proba(spec_dict):
 def get_random_Sequential(X_df, layers=3, opt='adam', loss_fn='mean_squared_error'):
   model = k.Sequential()
 
-  model.add(k.Input(shape=len(X_df.columns)))
   for _ in range(layers):
     model.add(get_Layer())
   model.add(k.layers.Dense(1))
@@ -103,7 +102,7 @@ def get_Sequential(X_df, layers=3, spec_dict={}, opt='adam', loss_fn='mean_squar
 
   model = k.Sequential()
 
-  model.add(k.layers.Dense(units=starting_dense_number, input_shape=(len(X_df.columns),), activation='tanh', kernel_initializer=k.initializers.RandomNormal(stddev=0.3), bias_initializer=k.initializers.RandomNormal(stddev=0.3)))
+  model.add(k.layers.Dense(units=starting_dense_number, activation='tanh', kernel_initializer=k.initializers.RandomNormal(stddev=0.3), bias_initializer=k.initializers.RandomNormal(stddev=0.3)))
   for _ in range(layers):
     model.add(get_Layer_proba(spec_dict))
   model.add(k.layers.BatchNormalization())
