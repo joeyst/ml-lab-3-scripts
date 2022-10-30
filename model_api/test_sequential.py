@@ -20,7 +20,6 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
   for train, test in kfold:
     temp_model = tf.keras.models.clone_model(model)
     temp_model.compile(optimizer=opt, loss=loss_fn, run_eagerly=run_eagerly)
-    print("temp_model.weights:", temp_model.weights[0][0])
 
     X_train, X_test = X[train], X[test]
     y_train, y_test = y[train], y[test]
@@ -30,9 +29,13 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
     y_train = tf.convert_to_tensor(np.asarray(y_train).astype('float32'))
     y_test  = np.asarray(y_test).astype('float32')
 
+    print("X_train shape:", X_train.shape)
+    print("Y_train shape:", y_train.shape)
     history = temp_model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, validation_split=0.3)
     curr_y_pred = temp_model.predict(X_test)
     curr_y_pred = np.array(curr_y_pred).flatten()
+    print("X_test shape:", X_test.shape)
+    print("Y_test shape:", y_test.shape)
 
     if comparison:
       print("Pred:", curr_y_pred)
