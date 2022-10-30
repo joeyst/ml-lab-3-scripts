@@ -25,9 +25,9 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
     X_train, X_test = X[train], X[test]
     y_train, y_test = y[train], y[test]
 
-    X_train = np.asarray(X_train).astype('float32')
-    X_test  = np.asarray(X_test).astype('float32')
-    y_train = np.asarray(y_train).astype('float32')
+    X_train = tf.convert_to_tensor(np.asarray(X_train).astype('float32'))
+    X_test  = tf.convert_to_tensor(np.asarray(X_test).astype('float32'))
+    y_train = tf.convert_to_tensor(np.asarray(y_train).astype('float32'))
     y_test  = np.asarray(y_test).astype('float32')
 
     history = temp_model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, validation_split=0.3)
