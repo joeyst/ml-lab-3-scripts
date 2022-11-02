@@ -24,10 +24,10 @@ def train_and_test_CV_tf(model, X, y, k=10, summary=False, comparison=False, epo
     X_train, X_test = X[train], X[test]
     y_train, y_test = y[train], y[test]
 
-    X_train = tf.convert_to_tensor(np.asarray(X_train).astype('float32'))
-    X_test  = tf.convert_to_tensor(np.asarray(X_test).astype('float32'))
-    y_train = tf.convert_to_tensor(np.asarray(y_train).astype('float32'))
-    y_test  = np.asarray(y_test).astype('float32')
+    X_train = tf.convert_to_tensor(np.asarray(X_train).astype('float64'))
+    X_test  = tf.convert_to_tensor(np.asarray(X_test).astype('float64'))
+    y_train = tf.convert_to_tensor(np.asarray(y_train).astype('float64'))
+    y_test  = np.asarray(y_test).astype('float64')
 
     print("X_train shape:", X_train.shape)
     print("Y_train shape:", y_train.shape)
