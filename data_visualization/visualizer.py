@@ -184,7 +184,7 @@ class DataVisualizer:
     curr = self._select_columns(feats)
 
     if label:
-      curr.join(self._get_y())
+      curr = curr.join(self._get_y())
 
     # create dictionary to store correlations
     corrs = {}
