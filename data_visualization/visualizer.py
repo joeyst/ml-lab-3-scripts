@@ -47,7 +47,7 @@ class DataVisualizer:
       print("`_make_nonnegative`: passed in `Series` object; converting to `DataFrame`")
       df = df.to_frame()
     elif not isinstance(df, pd.DataFrame):
-      raise("`_make_nonnegative`: passed in {} object; not `Series` or `DataFrame`".format(type(df)))
+      raise Exception("`_make_nonnegative`: passed in {} object; not `Series` or `DataFrame`".format(type(df)))
 
     for (name, data) in df.iteritems():
       if data.min() < 0:
@@ -156,7 +156,7 @@ class DataVisualizer:
       print("`_make_nonnegative`: passed in `Series` object; converting to `DataFrame`")
       df = df.to_frame()
     elif not isinstance(df, pd.DataFrame):
-      raise("`_make_nonnegative`: passed in {} object; not `Series` or `DataFrame`".format(type(df)))
+      raise Exception("`_make_nonnegative`: passed in {} object; not `Series` or `DataFrame`".format(type(df)))
 
     output = {}
 
@@ -193,7 +193,7 @@ class DataVisualizer:
     fig, ax = plt.subplots(figsize=(20, 20))
 
     # plot data 
-    ax.hist(curr.values, kbins, density=True, histtype='step', stacked=False, fill=True, label=curr.columns)
+    ax.hist(curr.values, kbins, density=True, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=2)
 
     plt.rc('xtick', labelsize=20)
     plt.rc('ytick', labelsize=20)
