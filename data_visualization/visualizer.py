@@ -53,10 +53,14 @@ class DataVisualizer:
     self._append_transform_history(columns=feats, transform=transforms, label_included=label)
 
   def _update_X(self, frame):
-    self._set_X(self._get_X().update(frame))
+    curr_X = self._get_X()
+    curr_X.update(frame)
+    self._set_X(curr_X)
 
-  def _update_y(self, frame):
-    self._set_y(self._get_y().update(frame))
+  def _update_y(self, series):
+    curr_y = self._get_y()
+    curr_y.update(series)
+    self._set_y(curr_y)
 
   def _get_X(self):
     return self.X_state
