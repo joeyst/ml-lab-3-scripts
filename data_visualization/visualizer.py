@@ -142,7 +142,7 @@ class DataVisualizer:
     fig, ax = plt.subplots(figsize=(20, 20))
     
     # plot each feature's correlation with the label 
-    for (name, feat_data) in self._get_X().iteritems():
+    for (name, feat_data) in self._select_columns(feats).iteritems():
       if scat:
         ax.scatter(self._get_y(), feat_data)
 
