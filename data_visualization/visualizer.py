@@ -174,7 +174,7 @@ class DataVisualizer:
     df = self._make_nonnegative(df)
     return self._apply_to_each_feature_with_label(kl_div, df)
 
-  def hist(self, feats=None, label=True, kbins=10):
+  def hist(self, feats=None, label=True, kbins=10, **kwargs):
     """
     feats: list | string | None => which feature(s) to display 
     kbins: integer 
@@ -193,7 +193,7 @@ class DataVisualizer:
     fig, ax = plt.subplots(figsize=(20, 20))
 
     # plot data 
-    ax.hist(curr.values, kbins, density=True, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=7)
+    ax.hist(curr.values, kbins, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=7, **kwargs)
 
     plt.rc('xtick', labelsize=20)
     plt.rc('ytick', labelsize=20)
