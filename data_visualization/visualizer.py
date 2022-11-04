@@ -1,6 +1,7 @@
 import pandas as pd
 from matplotlib import pyplot as plt
 import numpy as np
+from sklearn.preprocessing import MinMaxScaler 
 
 class DataVisualizer:
   """
@@ -23,9 +24,9 @@ class DataVisualizer:
     self.y_state = self._y_frame
     self.transform_history = []
 
-  def pipeline(self, visualizer='scatter', transforms=[], feats=None, label=False, **kwargs):
+  def pipeline(self, visualizer='scatter', transforms=[], feats=None, label=False, normalize=True, **kwargs):
     # apply transforms 
-    self.transform(transforms=transforms, feats=feats, label=label)
+    self.transform(transforms=transforms, feats=feats, label=label, normalize=normalize)
 
     # visualize 
     if visualizer == 'scatter':
@@ -38,16 +39,34 @@ class DataVisualizer:
     self.y_state = self._y_frame
     self._append_transform_history(transform="reset")
 
-  def transform(self, transforms, feats=None, label=False):
-    # gets `DataFrame` of transformed desired columns 
-    X_transformed = self._select_columns(feats).transform(transforms)
+  def transform(self, transforms, feats=None, label=False, normalize=True):
+    # get `DataFrame` of desired features 
+    features = self._select_columns(feats)
+
+    # get `Series` of label
+    labels = self._get_y()
+
+    # transform desired features 
+    X_transformed = features.transform(transforms)
+
+    # transform label if desired 
+    if label:
+      labels = labels.transform(transforms)
+
+    if normalize:
+      # get normalizer 
+      minmax = MinMaxScaler(feature_range=(0, 1))
+
+      # transform features 
+      cols = X_transformed.columns
+      X_transformed = pd.DataFrame(minmax.fit_transform(X_transformed))
+      X_transformed.columns = cols      
 
     # update `X_state` 
     self._update_X(X_transformed)
 
     # update `y_state`
-    if label:
-      self._update_y(self._get_y().transform(transforms))
+    self._update_y(labels)
 
     # record transform and columns affected 
     self._append_transform_history(columns=feats, transform=transforms, label_included=label)
