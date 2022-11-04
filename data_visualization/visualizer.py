@@ -48,7 +48,7 @@ class DataVisualizer:
       for (name, data) in features.iteritems():
         if data.min() < 0:
           nonzeromax = MinMaxScaler(feature_range=(0, data.max()))
-          self._update_X(pd.DataFrame(nonzeromax.fit_transform(data), columns=[name]))
+          self._update_X(pd.DataFrame(nonzeromax.fit_transform(data).reshape(-1, 1), columns=[name]))
 
     # get `Series` of label
     labels = self._get_y()
