@@ -134,6 +134,22 @@ class DataVisualizer:
     self._X_frame = self._X_frame.astype('float64')
     self._y_frame = self._y_frame.astype('float64')
 
+  def _apply_to_each_feature_with_label(self, function, feats=None):
+    """ 
+    takes function that takes in two lists of values 
+    and applies to each `(feature, label)` pair  
+    """
+
+    curr = self._select_columns(feats)
+    return dict([(name, function(self._get_y(), data)) for (name, data) in curr.iteritems()])
+
+  def pearsonr(self, feats=None):
+    # # # # # needs to take only first value from pearsonr 
+    return self._apply_to_each_feature_with_label(lambda label, feat : pearsonr(label, feat)[0], feats)
+
+  def kl_div(self, feats=None):
+    return self._apply_to_each_feature_with_label(kl_div, feats)
+
   def hist(self, feats=None, label=True, kbins=10):
     """
     feats: list | string | None => which feature(s) to display 
@@ -154,8 +170,7 @@ class DataVisualizer:
 
     # plot data 
     for (name, data) in curr.iteritems():
-      ax.hist(data, kbins)
-      corrs[name], _ = kl_div(self._get_y(), feat_data)
+      ax.hist(data, kbins, fill=False)
 
     plt.rc('xtick', labelsize=20)
     plt.rc('ytick', labelsize=20)
@@ -166,7 +181,7 @@ class DataVisualizer:
     plt.title('Frequency of datapoints')
     plt.legend(curr.keys(), prop={'size': 20})
 
-    return corrs
+    return self.kl_div(feats)
 
   def scatter(self, feats=None, scat=True, line=True):
     """
@@ -196,8 +211,6 @@ class DataVisualizer:
         m, b = np.polyfit(self._get_y(), feat_data, 1)
         ax.plot(m*self._get_y() + b, self._get_y(), linewidth=5)
 
-      corrs[name], _ = pearsonr(self._get_y(), feat_data)
-
     plt.rc('xtick', labelsize=20)
     plt.rc('ytick', labelsize=20)
 
@@ -209,7 +222,7 @@ class DataVisualizer:
     plt.title('Label vs Feature')
     plt.legend(curr.keys(), prop={'size': 20})
 
-    return corrs
+    return self.pearsonr(feats)
   
   def _select_columns(self, feats):
     if feats == None:
