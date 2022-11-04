@@ -54,8 +54,11 @@ class DataVisualizer:
     # get `Series` of label
     labels = self._get_y()
 
+    if not transforms == None and not isinstance(transforms, list):
+      transforms = [transforms]
+
     # transform desired features 
-    if not len(transforms) == 0:
+    if len(transforms) == 0:
       features = features.transform(transforms)
 
     # transform label if desired 
