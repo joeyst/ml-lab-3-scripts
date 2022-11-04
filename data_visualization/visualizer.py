@@ -2,6 +2,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler 
+from scipy.stats import pearsonr
 
 class DataVisualizer:
   """
@@ -138,6 +139,9 @@ class DataVisualizer:
       string: show feature with column name matching string
     """
 
+    # create dictionary to store correlations
+    corrs = {}
+
     # set up plot 
     fig, ax = plt.subplots(figsize=(20, 20))
     
@@ -150,6 +154,8 @@ class DataVisualizer:
         m, b = np.polyfit(self._get_y(), feat_data, 1)
         ax.plot(m*self._get_y() + b, self._get_y(), linewidth=5)
 
+      corrs[name], _ = pearsonr(self._get_y(), feat_data)
+
     plt.rc('xtick', labelsize=20)
     plt.rc('ytick', labelsize=20)
 
@@ -160,6 +166,8 @@ class DataVisualizer:
     plt.ylabel('Feature')
     plt.title('Label vs Feature')
     plt.legend(self._get_X().keys(), prop={'size': 20})
+
+    return corrs
   
   def _select_columns(self, feats):
     if feats == None:
