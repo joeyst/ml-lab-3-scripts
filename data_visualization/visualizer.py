@@ -84,12 +84,12 @@ class DataVisualizer:
   def _ensure_dataframes(self):
     """ ensure datatypes are correct and convert from `Series` to `DataFrame` if needed """
     # ensure good inputs 
-    if not isinstance(self._get_X(), (pd.DataFrame, pd.Series)):
+    if not isinstance(self._X_frame, (pd.DataFrame, pd.Series)):
       raise Exception("`display_correlation`: `df_features` is not a `DataFrame`")
-    if not isinstance(self._get_y(), pd.Series):
+    if not isinstance(self._y_frame, pd.Series):
       raise Exception("`display_correlation`: `df_labels` is not a `DataFrame`")
 
-  # ensure `X` is a `DataFrame`
+    # ensure `X` is a `DataFrame`
     if isinstance(self._X_frame, pd.Series):
       self._X_frame = self._X_frame.to_frame()
 
