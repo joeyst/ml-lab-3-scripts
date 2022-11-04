@@ -41,9 +41,11 @@ class DataVisualizer:
     self.y_state = self._y_frame
     self._append_transform_history(transform="reset")
 
-  def _make_nonnegative(self, df):
+  def _make_nonnegative(self, df, verbose=False):
     if isinstance(df, pd.Series):
-      print("`_make_nonnegative`: passed in `Series` object; converting to `DataFrame`")
+      if verbose:
+        print("`_make_nonnegative`: passed in `Series` object; converting to `DataFrame`")
+        
       df = df.to_frame()
     elif not isinstance(df, pd.DataFrame):
       raise Exception("`_make_nonnegative`: passed in {} object; not `Series` or `DataFrame`".format(type(df)))
@@ -145,14 +147,16 @@ class DataVisualizer:
     self._X_frame = self._X_frame.astype('float64')
     self._y_frame = self._y_frame.astype('float64')
 
-  def _apply_to_each_feature_with_label(self, function, df):
+  def _apply_to_each_feature_with_label(self, function, df, verbose=False):
     """ 
     takes function that takes in two lists of values 
     and applies to each `(feature, label)` pair  
     """
 
     if isinstance(df, pd.Series):
-      print("`_make_nonnegative`: passed in `Series` object; converting to `DataFrame`")
+      if verbose:
+        print("`_make_nonnegative`: passed in `Series` object; converting to `DataFrame`")
+
       df = df.to_frame()
     elif not isinstance(df, pd.DataFrame):
       raise Exception("`_make_nonnegative`: passed in {} object; not `Series` or `DataFrame`".format(type(df)))
