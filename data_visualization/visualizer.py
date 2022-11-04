@@ -1,0 +1,142 @@
+import pandas as pd
+import matplotlib as plt
+import numpy as np
+
+class DataVisualizer:
+  """
+  __init__ : `X` => DataFrame or Series, `y` => Series
+  scatter  : creates scatterplot with line showing relationship between each feature and the label 
+  hist     : creates histogram of each feature and/or the label 
+
+  pipeline : allows transformation of data and plotting 
+  transform: transforms specified features and/or label 
+  reset    : resets data to untransformed state 
+
+  get_transform_history: gets columns, transforms applied (or resets), and whether label was included 
+  """
+
+  def __init__(self, X_frame, y_frame):
+    self._X_frame = X_frame
+    self._y_frame = y_frame
+    self._cleanup_data()
+    self.X_state = self._X_frame
+    self.y_state = self._y_frame
+    self.transform_history = []
+
+  def pipeline(self, visualizer='scatter', transforms=[], feats=None, label=False, **kwargs):
+    # apply transforms 
+    self.transform(transforms=transforms, feats=feats, label=label)
+
+    # visualize 
+    if visualizer == 'scatter':
+      self.scatter(feats=feats, **kwargs)
+    #elif visualizer == 'hist':
+
+
+  def reset(self):
+    self.X_state = self._X_frame
+    self.y_state = self._y_frame
+    self._append_transform_history(transform="reset")
+
+  def transform(self, transforms, feats=None, label=False):
+    # gets `DataFrame` of transformed desired columns 
+    X_transformed = self._select_columns(feats).transform(transforms)
+
+    # update `X_state` 
+    self._update_X(X_transformed)
+
+    # update `y_state`
+    if label:
+      self._update_y(self._get_y().transform(transforms))
+
+    # record transform and columns affected 
+    self._append_transform_history(columns=feats, transform=transforms, label_included=label)
+
+  def _update_X(self, frame):
+    self._set_X(self._get_X().update(frame))
+
+  def _update_y(self, frame):
+    self._set_y(self._get_y().update(frame))
+
+  def _get_X(self):
+    return self.X_state
+
+  def _get_y(self):
+    return self.y_state
+
+  def _set_X(self, frame):
+    self.X_state = frame
+
+  def _set_y(self, frame):
+    self.y_state = frame
+
+  def _append_transform_history(self, **data):
+    self.transform_history.append(data)
+
+  def get_transform_history(self):
+    return self.transform_history
+
+  def _cleanup_data(self):
+    """ ensure datatypes are correct and coerce to `float64` """
+    self._ensure_dataframes()
+    self._coerce_to_float()
+    
+  def _ensure_dataframes(self):
+    """ ensure datatypes are correct and convert from `Series` to `DataFrame` if needed """
+    # ensure good inputs 
+    if not isinstance(self._get_X(), (pd.DataFrame, pd.Series)):
+      raise Exception("`display_correlation`: `df_features` is not a `DataFrame`")
+    if not isinstance(self._get_y(), pd.Series):
+      raise Exception("`display_correlation`: `df_labels` is not a `DataFrame`")
+
+  # ensure `X` is a `DataFrame`
+    if isinstance(self._X_frame, pd.Series):
+      self._X_frame = self._X_frame.to_frame()
+
+  def _coerce_to_float(self):
+    """ coerce data to `float64` """
+    self._X_frame = self._X_frame.astype('float64')
+    self._y_frame = self._y_frame.astype('float64')
+
+  def scatter(self, feats=None, scat=True, line=True):
+    """
+    scat : bool => show datapoints
+    line : bool => show line
+    feats: list | string | None => which feature(s) to display 
+      None  : show all features 
+      list  : show features with column names matching list items 
+      string: show feature with column name matching string
+    """
+
+    # set up plot 
+    fig, ax = plt.subplots(figsize=(20, 20))
+    
+    # plot each feature's correlation with the label 
+    for (name, feat_data) in self._get_X().iteritems():
+      if scat:
+        ax.scatter(self._get_y(), feat_data)
+
+      if line:
+        m, b = np.polyfit(self._get_y(), feat_data, 1)
+        ax.plot(m*self._get_y() + b, self._get_y(), linewidth=5)
+
+    ax.rc('xtick', labelsize=20)
+    ax.rc('ytick', labelsize=20)
+
+    ax.rcParams.update({'font.size': 22})
+    ax.xlim([-1, 1])
+    ax.ylim([-1, 1])
+    ax.xlabel('Label')
+    ax.ylabel('Feature')
+    ax.title('Label vs Feature')
+    ax.legend(self._get_X().keys(), prop={'size': 20})
+  
+  def _select_columns(self, feats):
+    if isinstance(feats, None):
+      return self._get_X()
+    elif isinstance(feats, list):
+      return self._get_X()[feats]
+    elif isinstance(feats, str):
+      return self._get_X()[[feats]]
+    else:
+      raise "`DataVisualizer._select_columns: `feats` is not a `None`, `list`, or `str`."
