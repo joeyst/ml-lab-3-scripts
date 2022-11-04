@@ -201,7 +201,7 @@ class DataVisualizer:
     plt.xlabel('Range of label values')
     plt.ylabel('# of label values in bin')
     plt.title('Frequency of datapoints')
-    plt.legend()
+    plt.legend(loc='upper left')
     plt.show()
 
     return self.kl_div(feats)
