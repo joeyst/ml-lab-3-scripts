@@ -55,10 +55,11 @@ class DataVisualizer:
     labels = self._get_y()
 
     # transform desired features 
-    X_transformed = features.transform(transforms)
+    if not len(transforms) == 0:
+      X_transformed = features.transform(transforms)
 
     # transform label if desired 
-    if label:
+    if label and not len(transforms) == 0:
       labels = labels.transform(transforms)
 
     if normalize:
