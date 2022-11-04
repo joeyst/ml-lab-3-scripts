@@ -144,7 +144,6 @@ class DataVisualizer:
     return dict([(name, function(self._get_y(), data)) for (name, data) in curr.iteritems()])
 
   def pearsonr(self, feats=None):
-    # # # # # needs to take only first value from pearsonr 
     return self._apply_to_each_feature_with_label(lambda label, feat : pearsonr(label, feat)[0], feats)
 
   def kl_div(self, feats=None):
@@ -160,7 +159,7 @@ class DataVisualizer:
     curr = self._select_columns(feats)
 
     if label:
-      curr.append(self._get_y())
+      curr.join(self._get_y())
 
     # create dictionary to store correlations
     corrs = {}
@@ -176,8 +175,8 @@ class DataVisualizer:
     plt.rc('ytick', labelsize=20)
 
     plt.rcParams.update({'font.size': 22})
-    plt.xlabel('# in bin')
-    plt.ylabel('Range of bin')
+    plt.xlabel('Range of label values')
+    plt.ylabel('# of label values in bin')
     plt.title('Frequency of datapoints')
     plt.legend(curr.keys(), prop={'size': 20})
 
