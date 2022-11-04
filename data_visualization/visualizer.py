@@ -146,23 +146,33 @@ class DataVisualizer:
     self._X_frame = self._X_frame.astype('float64')
     self._y_frame = self._y_frame.astype('float64')
 
-  def _apply_to_each_feature_with_label(self, function, feats=None):
+  def _apply_to_each_feature_with_label(self, function, df):
     """ 
     takes function that takes in two lists of values 
     and applies to each `(feature, label)` pair  
     """
 
-    curr = self._select_columns(feats)
-    print("")
-    print("curr function:", function)
-    print("curr.shape:", curr.shape)
-    return dict([(name, function(self._get_y(), data)) for (name, data) in curr.iteritems()])
+    if isinstance(df, pd.Series):
+      print("`_make_nonnegative`: passed in `Series` object; converting to `DataFrame`")
+      df = df.to_frame()
+    elif not isinstance(df, pd.DataFrame):
+      raise("`_make_nonnegative`: passed in {} object; not `Series` or `DataFrame`".format(type(df)))
+
+    output = {}
+
+    for (name, data) in df.iteritems():
+      output[name] = function(self._get_y(), data)
+    
+    return output
 
   def pearsonr(self, feats=None):
-    return self._apply_to_each_feature_with_label(lambda label, feat : pearsonr(label, feat)[0], feats)
+    df = self._select_columns(feats)
+    return self._apply_to_each_feature_with_label(pearson_corr, df)
 
   def kl_div(self, feats=None):
-    return self._apply_to_each_feature_with_label(lambda label, feat : kl_div(label, self._make_nonnegative(feat)), feats)
+    df = self._select_columns(feats)
+    df = self._make_nonnegative(df)
+    return self._apply_to_each_feature_with_label(kl_div, df)
 
   def hist(self, feats=None, label=True, kbins=10):
     """
@@ -247,3 +257,6 @@ class DataVisualizer:
       return self._get_X()[[feats]]
     else:
       raise "`DataVisualizer._select_columns: `feats` is not a `None`, `list`, or `str`."
+
+def pearson_corr(true, pred):
+  return pearsonr(true, pred)[0]
