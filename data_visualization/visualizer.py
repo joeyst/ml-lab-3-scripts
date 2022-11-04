@@ -193,8 +193,7 @@ class DataVisualizer:
     fig, ax = plt.subplots(figsize=(20, 20))
 
     # plot data 
-    for (name, data) in curr.iteritems():
-      ax.hist(data, kbins, fill=False)
+    ax.hist(curr.values, kbins, density=True, histtype='step', stacked=False, fill=False, label=curr.columns)
 
     plt.rc('xtick', labelsize=20)
     plt.rc('ytick', labelsize=20)
