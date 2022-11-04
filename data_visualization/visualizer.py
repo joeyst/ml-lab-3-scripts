@@ -41,16 +41,21 @@ class DataVisualizer:
     self.y_state = self._y_frame
     self._append_transform_history(transform="reset")
 
+  def _make_nonnegative(self, df):
+    for (name, data) in df.iteritems():
+      if data.min() < 0:
+        nonzeromax = MinMaxScaler(feature_range=(0, data.max()))
+        df.update(pd.DataFrame(nonzeromax.fit_transform(data.to_numpy().reshape(-1, 1)), columns=[name]))
+
+    return df
+
   def transform(self, transforms, feats=None, label=False, normalize=True, make_nonnegative=True):
     # get `DataFrame` of desired features 
     features = self._select_columns(feats)
 
     # conditionally ensure values are nonnegative 
     if make_nonnegative:
-      for (name, data) in features.iteritems():
-        if data.min() < 0:
-          nonzeromax = MinMaxScaler(feature_range=(0, data.max()))
-          features.update(pd.DataFrame(nonzeromax.fit_transform(data.to_numpy().reshape(-1, 1)), columns=[name]))
+      features = self._make_nonnegative(features)
 
     # get `Series` of label
     labels = self._get_y()
@@ -147,7 +152,7 @@ class DataVisualizer:
     return self._apply_to_each_feature_with_label(lambda label, feat : pearsonr(label, feat)[0], feats)
 
   def kl_div(self, feats=None):
-    return self._apply_to_each_feature_with_label(kl_div, feats)
+    return self._apply_to_each_feature_with_label(lambda label, feat : kl_div(label, self._make_nonnegative(feat)), feats)
 
   def hist(self, feats=None, label=True, kbins=10):
     """
