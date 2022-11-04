@@ -146,6 +146,12 @@ class DataVisualizer:
     if label:
       curr.append(self._get_y())
 
+    # create dictionary to store correlations
+    corrs = {}
+
+    # set up plot 
+    fig, ax = plt.subplots(figsize=(20, 20))
+
     # plot data 
     for (name, data) in curr.iteritems():
       ax.hist(data, kbins)
