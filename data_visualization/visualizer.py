@@ -31,7 +31,7 @@ class DataVisualizer:
 
     # visualize 
     if visualizer == 'scatter':
-      self.scatter(feats=feats, **kwargs)
+      return self.scatter(feats=feats, **kwargs)
     #elif visualizer == 'hist':
 
 
