@@ -43,6 +43,12 @@ class DataVisualizer:
 
   def _make_nonnegative(self, df):
     print("df in _make_nonnegative:", df)
+    if isinstance(df, pd.Series):
+      print("`_make_nonnegative`: passed in `Series` object; converting to `DataFrame`")
+      df = pd.DataFrame(df, columns=[df.name])
+    elif not isinstance(df, pd.DataFrame):
+      raise("`_make_nonnegative`: passed in {} object; not `Series` or `DataFrame`".format(type(df)))
+
     for (name, data) in df.iteritems():
       if data.min() < 0:
         nonzeromax = MinMaxScaler(feature_range=(0, data.max()))
