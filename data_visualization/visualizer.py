@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler 
 from scipy.stats import pearsonr
+from scipy.special import kl_div
 
 class DataVisualizer:
   """
@@ -133,6 +134,34 @@ class DataVisualizer:
     self._X_frame = self._X_frame.astype('float64')
     self._y_frame = self._y_frame.astype('float64')
 
+  def hist(self, feats=None, label=True, kbins=10):
+    """
+    feats: list | string | None => which feature(s) to display 
+    kbins: integer 
+    """
+
+    # get current `DataFrame`s
+    curr = self._select_columns(feats)
+
+    if label:
+      curr.append(self._get_y())
+
+    # plot data 
+    for (name, data) in curr.iteritems():
+      ax.hist(data, kbins)
+      corrs[name], _ = kl_div(self._get_y(), feat_data)
+
+    plt.rc('xtick', labelsize=20)
+    plt.rc('ytick', labelsize=20)
+
+    plt.rcParams.update({'font.size': 22})
+    plt.xlabel('# in bin')
+    plt.ylabel('Range of bin')
+    plt.title('Frequency of datapoints')
+    plt.legend(curr.keys(), prop={'size': 20})
+
+    return corrs
+
   def scatter(self, feats=None, scat=True, line=True):
     """
     scat : bool => show datapoints
@@ -143,6 +172,9 @@ class DataVisualizer:
       string: show feature with column name matching string
     """
 
+    # get current `DataFrame`s
+    curr = self._select_columns(feats)
+
     # create dictionary to store correlations
     corrs = {}
 
@@ -150,7 +182,7 @@ class DataVisualizer:
     fig, ax = plt.subplots(figsize=(20, 20))
     
     # plot each feature's correlation with the label 
-    for (name, feat_data) in self._select_columns(feats).iteritems():
+    for (name, feat_data) in curr.iteritems():
       if scat:
         ax.scatter(self._get_y(), feat_data)
 
@@ -169,7 +201,7 @@ class DataVisualizer:
     plt.xlabel('Label')
     plt.ylabel('Feature')
     plt.title('Label vs Feature')
-    plt.legend(self._get_X().keys(), prop={'size': 20})
+    plt.legend(curr.keys(), prop={'size': 20})
 
     return corrs
   
