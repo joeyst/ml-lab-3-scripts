@@ -194,7 +194,7 @@ class DataVisualizer:
     print("curr:", curr)
 
     # plot data 
-    ax.hist(curr.values, kbins, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=7, figsize=(20, 20), **kwargs)
+    ax.hist(curr.values, kbins, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=7, **kwargs)
 
     ax.rc('xtick', labelsize=20)
     ax.rc('ytick', labelsize=20)
