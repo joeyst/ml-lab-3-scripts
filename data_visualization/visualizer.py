@@ -124,16 +124,16 @@ class DataVisualizer:
         m, b = np.polyfit(self._get_y(), feat_data, 1)
         ax.plot(m*self._get_y() + b, self._get_y(), linewidth=5)
 
-    ax.rc('xtick', labelsize=20)
-    ax.rc('ytick', labelsize=20)
+    plt.rc('xtick', labelsize=20)
+    plt.rc('ytick', labelsize=20)
 
-    ax.rcParams.update({'font.size': 22})
-    ax.xlim([-1, 1])
-    ax.ylim([-1, 1])
-    ax.xlabel('Label')
-    ax.ylabel('Feature')
-    ax.title('Label vs Feature')
-    ax.legend(self._get_X().keys(), prop={'size': 20})
+    plt.rcParams.update({'font.size': 22})
+    plt.xlim([-1, 1])
+    plt.ylim([-1, 1])
+    plt.xlabel('Label')
+    plt.ylabel('Feature')
+    plt.title('Label vs Feature')
+    plt.legend(self._get_X().keys(), prop={'size': 20})
   
   def _select_columns(self, feats):
     if feats == None:
