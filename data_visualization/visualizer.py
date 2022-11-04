@@ -45,7 +45,7 @@ class DataVisualizer:
     if isinstance(df, pd.Series):
       if verbose:
         print("`_make_nonnegative`: passed in `Series` object; converting to `DataFrame`")
-        
+
       df = df.to_frame()
     elif not isinstance(df, pd.DataFrame):
       raise Exception("`_make_nonnegative`: passed in {} object; not `Series` or `DataFrame`".format(type(df)))
@@ -190,7 +190,7 @@ class DataVisualizer:
       curr = pd.concat([curr, self._get_y().to_frame()], axis=1)
 
     # set up plot 
-    fig, ax = plt.subplots(figsize=(10, 10))
+    fig, ax = plt.subplots(figsize=(18, 10))
 
     # plot data 
     ax.hist(curr.values, kbins, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=7, **kwargs)
@@ -202,7 +202,7 @@ class DataVisualizer:
     plt.xlabel('Range of label values')
     plt.ylabel('# of label values in bin')
     plt.title('Frequency of datapoints')
-    plt.legend(prop={'size': 20})
+    plt.legend()
     plt.show()
 
     return self.kl_div(feats)
