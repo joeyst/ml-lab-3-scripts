@@ -42,6 +42,7 @@ class DataVisualizer:
     self._append_transform_history(transform="reset")
 
   def _make_nonnegative(self, df):
+    print("df in _make_nonnegative:", df)
     for (name, data) in df.iteritems():
       if data.min() < 0:
         nonzeromax = MinMaxScaler(feature_range=(0, data.max()))
