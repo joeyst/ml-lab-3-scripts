@@ -146,6 +146,9 @@ class DataVisualizer:
     """
 
     curr = self._select_columns(feats)
+    print("")
+    print("curr function:", function)
+    print("curr.shape:", curr.shape)
     return dict([(name, function(self._get_y(), data)) for (name, data) in curr.iteritems()])
 
   def pearsonr(self, feats=None):
