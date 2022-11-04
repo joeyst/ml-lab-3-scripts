@@ -42,7 +42,6 @@ class DataVisualizer:
     self._append_transform_history(transform="reset")
 
   def _make_nonnegative(self, df):
-    print("df in _make_nonnegative:", df)
     if isinstance(df, pd.Series):
       print("`_make_nonnegative`: passed in `Series` object; converting to `DataFrame`")
       df = df.to_frame()
@@ -187,11 +186,7 @@ class DataVisualizer:
       curr = pd.concat([curr, self._get_y().to_frame()], axis=1)
 
     # set up plot 
-    fig, ax = plt.subplots(figsize=(20, 20))
-
-    print("curr.values:", curr.values)
-    print("curr.columns:", curr.columns)
-    print("curr:", curr)
+    fig, ax = plt.subplots(figsize=(10, 10))
 
     # plot data 
     ax.hist(curr.values, kbins, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=7, **kwargs)
