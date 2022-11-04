@@ -132,7 +132,7 @@ class DataVisualizer:
     ax.legend(self._get_X().keys(), prop={'size': 20})
   
   def _select_columns(self, feats):
-    if isinstance(feats, None):
+    if isinstance(feats, NoneType):
       return self._get_X()
     elif isinstance(feats, list):
       return self._get_X()[feats]
