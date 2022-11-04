@@ -45,7 +45,7 @@ class DataVisualizer:
     print("df in _make_nonnegative:", df)
     if isinstance(df, pd.Series):
       print("`_make_nonnegative`: passed in `Series` object; converting to `DataFrame`")
-      df = pd.DataFrame(df, columns=[df.name])
+      df = df.to_frame()
     elif not isinstance(df, pd.DataFrame):
       raise("`_make_nonnegative`: passed in {} object; not `Series` or `DataFrame`".format(type(df)))
 
