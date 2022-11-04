@@ -198,7 +198,6 @@ class DataVisualizer:
     plt.rc('xtick', labelsize=20)
     plt.rc('ytick', labelsize=20)
 
-    plt.rcParams.update({'font.size': 22})
     plt.xlabel('Range of label values')
     plt.ylabel('# of label values in bin')
     plt.title('Frequency of datapoints')
