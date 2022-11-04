@@ -186,11 +186,12 @@ class DataVisualizer:
     if label:
       curr = curr.join(self._get_y())
 
-    # create dictionary to store correlations
-    corrs = {}
-
     # set up plot 
     fig, ax = plt.subplots(figsize=(20, 20))
+
+    print("curr.values:", curr.values)
+    print("curr.columns:", curr.columns)
+    print("curr:", curr)
 
     # plot data 
     ax.hist(curr.values, kbins, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=7, **kwargs)
