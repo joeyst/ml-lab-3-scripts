@@ -187,23 +187,23 @@ class DataVisualizer:
       curr = pd.concat([curr, self._get_y().to_frame()], axis=1)
 
     # set up plot 
-    # fig, ax = plt.subplots(figsize=(20, 20))
+    fig, ax = plt.subplots(figsize=(20, 20))
 
     print("curr.values:", curr.values)
     print("curr.columns:", curr.columns)
     print("curr:", curr)
 
     # plot data 
-    plt.hist(curr.values, kbins, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=7, **kwargs)
+    ax[0].hist(curr.values, kbins, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=7, figsize=(20, 20), **kwargs)
 
-    plt.rc('xtick', labelsize=20)
-    plt.rc('ytick', labelsize=20)
+    ax[0].rc('xtick', labelsize=20)
+    ax[0].rc('ytick', labelsize=20)
 
-    plt.rcParams.update({'font.size': 22})
-    plt.xlabel('Range of label values')
-    plt.ylabel('# of label values in bin')
-    plt.title('Frequency of datapoints')
-    plt.legend(curr.columns, prop={'size': 20})
+    ax[0].rcParams.update({'font.size': 22})
+    ax[0].xlabel('Range of label values')
+    ax[0].ylabel('# of label values in bin')
+    ax[0].title('Frequency of datapoints')
+    ax[0].legend(prop={'size': 20})
 
     return self.kl_div(feats)
 
