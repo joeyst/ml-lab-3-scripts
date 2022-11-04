@@ -194,16 +194,17 @@ class DataVisualizer:
     print("curr:", curr)
 
     # plot data 
-    ax[0].hist(curr.values, kbins, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=7, figsize=(20, 20), **kwargs)
+    ax.hist(curr.values, kbins, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=7, figsize=(20, 20), **kwargs)
 
-    ax[0].rc('xtick', labelsize=20)
-    ax[0].rc('ytick', labelsize=20)
+    ax.rc('xtick', labelsize=20)
+    ax.rc('ytick', labelsize=20)
 
-    ax[0].rcParams.update({'font.size': 22})
-    ax[0].xlabel('Range of label values')
-    ax[0].ylabel('# of label values in bin')
-    ax[0].title('Frequency of datapoints')
-    ax[0].legend(prop={'size': 20})
+    ax.rcParams.update({'font.size': 22})
+    ax.xlabel('Range of label values')
+    ax.ylabel('# of label values in bin')
+    ax.title('Frequency of datapoints')
+    ax.legend(prop={'size': 20})
+    ax.show()
 
     return self.kl_div(feats)
 
