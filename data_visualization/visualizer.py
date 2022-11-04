@@ -1,5 +1,5 @@
 import pandas as pd
-import matplotlib as plt
+from matplotlib import pyplot as plt
 import numpy as np
 
 class DataVisualizer:
