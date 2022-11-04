@@ -187,14 +187,14 @@ class DataVisualizer:
       curr = pd.concat([curr, self._get_y().to_frame()], axis=1)
 
     # set up plot 
-    fig, ax = plt.subplots(figsize=(20, 20))
+    # fig, ax = plt.subplots(figsize=(20, 20))
 
     print("curr.values:", curr.values)
     print("curr.columns:", curr.columns)
     print("curr:", curr)
 
     # plot data 
-    ax.hist(curr.values, kbins, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=7, **kwargs)
+    plt.hist(curr.values, kbins, histtype='step', stacked=False, fill=False, label=curr.columns, linewidth=7, **kwargs)
 
     plt.rc('xtick', labelsize=20)
     plt.rc('ytick', labelsize=20)
