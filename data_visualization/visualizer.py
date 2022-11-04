@@ -184,7 +184,7 @@ class DataVisualizer:
     curr = self._select_columns(feats)
 
     if label:
-      curr = curr.join(self._get_y())
+      curr = pd.concat([curr, self._get_y().to_frame()], axis=1)
 
     # set up plot 
     fig, ax = plt.subplots(figsize=(20, 20))
