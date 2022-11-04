@@ -24,9 +24,9 @@ class DataVisualizer:
     self.y_state = self._y_frame
     self.transform_history = []
 
-  def pipeline(self, visualizer='scatter', transforms=[], feats=None, label=False, normalize=True, **kwargs):
+  def pipeline(self, visualizer='scatter', transforms=[], feats=None, label=False, normalize=True, make_nonnegative=True, **kwargs):
     # apply transforms 
-    self.transform(transforms=transforms, feats=feats, label=label, normalize=normalize)
+    self.transform(transforms=transforms, feats=feats, label=label, normalize=normalize, make_nonnegative=make_nonnegative)
 
     # visualize 
     if visualizer == 'scatter':
@@ -39,9 +39,16 @@ class DataVisualizer:
     self.y_state = self._y_frame
     self._append_transform_history(transform="reset")
 
-  def transform(self, transforms, feats=None, label=False, normalize=True):
+  def transform(self, transforms, feats=None, label=False, normalize=True, make_nonnegative=True):
     # get `DataFrame` of desired features 
     features = self._select_columns(feats)
+
+    # conditionally ensure values are nonnegative 
+    if make_nonnegative:
+      for (name, data) in features.iteritems():
+        if data.min() < 0:
+          nonzeromax = MinMaxScaler(feature_range=(0, data.max()))
+          self._update_X(pd.DataFrame(nonzeromax.fit_transform(data), columns=[name]))
 
     # get `Series` of label
     labels = self._get_y()
